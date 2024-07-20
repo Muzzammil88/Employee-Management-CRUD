@@ -1,0 +1,315 @@
+<div class="container-fluid">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">User Management</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#adduser" type="submit">Add
+          User</button>
+      </div>
+    </div>
+  </nav>
+  <div class="table-responsive">
+
+    <table class="table table-sm">
+      <thead>
+        <tr class="table-primary tables">
+          <!-- <th scope="col">ID</th> -->
+          <th scope="col">Full Name</th>
+          <th scope="col">User Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone No.</th>
+          <th scope="col">Department</th>
+          <th scope="col">Role</th>
+          <th scope="col">Designation</th>
+          <!-- <th scope="col">Password</th> -->
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <!-- <td>{{ user.id }}</td> -->
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.userName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.department }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.designation }}</td>
+          <!-- {{ getDesignationName(user.designationId) }} -->
+          <!-- <td>{{ user.password }}</td> -->
+          <td>
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" (click)="selectUser(user)"
+              data-bs-target="#edituser"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+              </svg></button>
+            <button type="button" class="btn btn-outline-danger" (click)="deleteUser(user)"><svg
+                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+                viewBox="0 0 16 16">
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                <path
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+              </svg></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!--Add User Modal onclick Add User button -->
+  <div class="modal fade" id="adduser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add New User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeClick()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm" (ngSubmit)="addUsers()">
+            <div class="mb-3">
+              <label for="add-fullname1" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="add-fullname1" formControlName="fullName"
+                aria-describedby="emailHelp" required (keydown)="Space($event)">
+              <span id="name-error" class="error-message"></span>
+              <div *ngIf="userForm.get('fullName')?.invalid && userForm.get('fullName')?.touched" class="text-danger">
+                Full Name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="add-email2" class="form-label">Email</label>
+              <input type="email" class="form-control" id="add-email2" formControlName="email"
+                aria-describedby="emailHelp"  required (keydown)="Space($event)">
+                <span
+                  id="name-error"
+                  class="error-message"
+              ></span>
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                Email is required and must be a valid email address
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="add-phonenumber1" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="add-phonenumber1" formControlName="phoneNumber"
+                aria-describedby="emailHelp"  required (keydown)="Space($event)">
+              <div *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched"
+                class="text-danger">
+                Please enter a valid phone number (11 digits).
+              </div>
+            </div>
+            <!-- <div class="mb-3">
+              <label for="add-username1" class="form-label">User Name</label>
+              <input type="text" class="form-control" id="add-username1" formControlName="userName"
+                aria-describedby="emailHelp" (keydown)="Space($event)">
+              <span id="name-error" class="error-message"></span>
+              <div *ngIf="userForm.get('userName')?.invalid && userForm.get('userName')?.touched" class="text-danger">
+                User Name is required
+              </div>
+            </div> -->
+
+
+
+
+            <div class="mb-3">
+              <label for="add-username1" class="form-label">User Name</label>
+              <input type="text" class="form-control" id="add-username1" formControlName="userName" aria-describedby="emailHelp" (keydown)="Space($event)">
+              <span id="name-error" class="error-message"></span>
+              <div *ngIf="userForm.get('userName')?.invalid && userForm.get('userName')?.touched" class="text-danger">
+                User Name is required
+              </div>
+              <div *ngIf="userForm.get('userName')?.errors?.['pattern']" class="text-danger">
+                User Name should contain only alphabetic characters and only be one.
+              </div>
+            </div>
+            <!-- <div class="mb-3">
+              <label for="add-department1" class="form-label">Select Depatremt</label>
+              <select class="form-control" id="add-department1" formControlName="departmentId" (change)="selectDep($event)">
+                <option value="">Select </option>
+                <option *ngFor="let department of depList" [value]="department.id">{{ department.name }}</option>
+              </select>
+              <div *ngIf="userForm.get('departmentId')?.invalid && userForm.get('departmentId')?.touched" class="text-danger">
+                Department is required
+              </div>
+              
+            </div> -->
+
+            <div class="mb-3">
+              <label for="add-department1" class="form-label">Select Department</label>
+              <select class="form-control" id="add-department1" formControlName="departmentId">
+                <option value="">Select</option>
+                <option *ngFor="let department of depList" [value]="department.id">{{ department.name }}</option>
+              </select>
+              <div *ngIf="userForm.get('departmentId')?.invalid && userForm.get('departmentId')?.touched"
+                class="text-danger">
+                Department is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="role1" class="form-label">Select Role</label>
+              <select class="form-control" id="roleId" formControlName="roleId">
+                <option value="">Select</option>
+                <option *ngFor="let role of roleList" [value]="role.id">{{ role.name }}</option>
+              </select>
+              <div *ngIf="userForm.get('roleId')?.invalid && userForm.get('roleId')?.touched"
+                class="text-danger">
+                Department is required
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="designation" class="form-label">Select Designation</label>
+              <select class="form-control" id="designationId" formControlName="designationId">
+                <option value="">Select</option>
+                <option *ngFor="let designation of designationList" [value]="designation.id">{{ designation.name }}</option>
+              </select>
+              <div *ngIf="userForm.get('designationId')?.invalid && userForm.get('designationId')?.touched"
+                class="text-danger">
+                Desegnation is required
+              </div>
+            </div>
+
+
+            <div class="mb-3">
+              <label for="add-password1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="add-password1" formControlName="password"
+                aria-describedby="emailHelp">
+              <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                Password is required
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"
+                (click)="closeClick()">Close</button>
+              <button type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Add User</button>
+            </div>
+          </form>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--Edit User Modal -->
+  <div class="modal fade" id="edituser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add User Detail</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeClick()"></button>
+        </div>
+        <div class="modal-body">
+
+          <form [formGroup]="userForm" (ngSubmit)="updateUser()">
+            <div class="mb-3">
+              <label for="add-fullname" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="add-fullname" formControlName="fullName"
+                aria-describedby="emailHelp" required (keydown)="Space($event)">
+              <span id="name-error" class="error-message"></span>
+              <div *ngIf="userForm.get('fullName')?.invalid && userForm.get('fullName')?.touched" class="text-danger">
+                Full Name is required
+              </div>
+            </div>
+
+
+            <div class="mb-3">
+              <label for="add-username" class="form-label">User Name</label>
+              <input type="text" class="form-control" id="add-username" formControlName="userName"
+                aria-describedby="emailHelp" (keydown)="Space($event)">
+              <span id="name-error" class="error-message"></span>
+              <div *ngIf="userForm.get('userName')?.invalid && userForm.get('userName')?.touched" class="text-danger">
+                User Name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="add-department2" class="form-label"> Select Department</label>
+              <select class="form-control" id="add-department2" formControlName="departmentId">
+                <option value="">Select</option>
+                <option *ngFor="let department of depList" [value]="department.id">{{ department.name }}</option>
+              </select>
+              <div *ngIf="userForm.get('departmentId')?.invalid && userForm.get('departmentId')?.touched"
+                class="text-danger">
+                Department is required
+              </div>
+            </div>
+            <!-- Select Role -->
+          <div class="mb-3">
+            <label for="role2" class="form-label">Select Role</label>
+            <select class="form-control" id="roleId2" formControlName="roleId">
+              <option value="">Select</option>
+              <option *ngFor="let role of roleList" [value]="role.id">{{ role.name }}</option>
+            </select>
+            <div *ngIf="userForm.get('roleId')?.invalid && userForm.get('roleId')?.touched" class="text-danger">
+              Role is required
+            </div>
+          </div>
+
+          <!-- Select Designation -->
+          <div class="mb-3">
+            <label for="designation2" class="form-label">Select Designation</label>
+            <select class="form-control" id="designationId2" formControlName="designationId">
+              <option value="">Select</option>
+              <option *ngFor="let designation of designationList" [value]="designation.id">{{ designation.name }}</option>
+            </select>
+            <div *ngIf="userForm.get('designationId')?.invalid && userForm.get('designationId')?.touched"
+              class="text-danger">
+              Designation is required
+            </div>
+          </div>
+
+            <div class="mb-3">
+              <label for="add-email1" class="form-label">Email</label>
+              <input type="email" class="form-control" id="add-email1" formControlName="email"
+                aria-describedby="emailHelp">
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                Email is required and must be a valid email address
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="add-phonenumber" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="add-phonenumber" formControlName="phoneNumber"
+                aria-describedby="emailHelp">
+              <div *ngIf="userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched"
+                class="text-danger">
+                Phone Number is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="add-password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="add-password" formControlName="password"
+                aria-describedby="emailHelp">
+              <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                Password is required
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"
+                (click)="closeClick()">Close</button>
+              <button type="submit" class="btn btn-outline-primary" data-bs-dismiss="modal">Update User</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

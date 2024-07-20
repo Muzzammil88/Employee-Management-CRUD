@@ -1,0 +1,68 @@
+<div class="container-fluid abc">
+  <div class="row flex-nowrap">
+    <div class="bg-primary col-auto col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between">
+      <div class="bg-primary p-2">
+        <a class="d-flex text-decoration-none mt-1 align-items-center text-white">
+          <span class="fs-4 d-none d-sm-inline">Management</span>
+        </a>
+        <ul class="nav nav-pills flex-column  mt-4 ">
+          <li class="nav-item py-2 py-sm-0">
+            <a  class="nav-link text-white" href="#"><i class="fs-5 fa fa-gauge"></i><span
+                class="fs-6 ms-2 d-none d-sm-inline">Emp Management</span></a>
+          </li>
+          <li class="nav-item py-2 py-sm-0">
+            <a routerLink="user" class="nav-link text-white" href="#"><i class="fs-5 fa fa-gauge"></i><span
+                class="fs-6 ms-2 d-none d-sm-inline">User Management</span></a>
+          </li>
+          <li class="nav-item py-2 py-sm-0">
+            <a routerLink="roll" class="nav-link text-white" href="#"><i class="fs-5 fa fa-house"></i><span
+                class="fs-6 ms-2 d-none d-sm-inline">Roll Management</span></a>
+          </li>
+         
+
+        </ul>
+
+      </div>
+
+      <div class="dropdown open p-3">
+        <button class="btn border-none dropdown-toggle text-white" type="button" id="triggerId"
+          data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <li class="fa fa-user"></li><span class="ms-2">Muzzammil</span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="triggerId">
+          <button class="dropdown-item" href="#">Setting</button>
+          <button class="dropdown-item disabled" href="#">
+            Profile
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-------------content------------->
+    <div class="p-3">
+      <!-- <h2>ContentArea</h2> -->
+      <div>
+
+        <h3 class="d-flex justify-content-center">Angular CRUD</h3>
+        <h5 class="d-flex justify-content-center">Employee Management Portal</h5>
+
+        <nav class="navbar navbar-expand-sm bg-light navbar-dark">
+          <ul class="navbar-nav">
+           
+            <li class="nav-item">
+              <button routerLink="department" class="m-1 btn btn-light btn-outline-primary">Department</button>
+            </li>
+            <li class="nav-item">
+              <button routerLink="employee" class="m-1 btn btn-light btn-outline-primary">Employee</button>
+            </li>
+          </ul>
+        </nav>
+
+       
+
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+  </div>

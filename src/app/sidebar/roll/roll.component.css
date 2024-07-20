@@ -1,0 +1,24 @@
+.table{
+    background-color: rgb(18, 18, 200);
+}
+
+/* .modal-content {
+    background-color: #6f9ff0 ;
+  } */
+
+   /* Additional CSS styles for the modal */
+   .modal-header {
+    background-color: #007bff; /* Header background color */
+    color: #fff; /* Header text color */
+  }
+  
+  .modal-body {
+    background-color: #f8f9fa; /* Body background color */
+    color: #333; /* Body text color */
+  }
+
+  .modal-footer {
+    background-color: #eaeef3; /* Footer background color */
+    color: #dcdde9; /* Footer text color */
+  }
+  

@@ -1,0 +1,184 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+  Add Role
+</button>
+
+<!-- Add Role Modal -->
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addRoleModalLabel">Add Role</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Add Role Form -->
+        <form #roleForm="ngForm">
+          <div class="mb-3">
+            <label for="roleName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="roleName" name="name" [(ngModel)]="newRole.name" required (keydown)="Space($event)">
+          </div>
+          <div class="mb-3">
+            <label for="roleDescription" class="form-label">Description</label>
+            <input type="text" class="form-control" id="roleDescription" name="description"
+              [(ngModel)]="newRole.description" required (keydown)="Space($event)">
+              
+            <!-- <span id="name-error" class="error-message">helo</span> -->
+
+          </div>
+          <div class="mb-3">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th></th>
+                  <th>Create</th>
+                  <th>Read</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let permission of permissions">
+                  <td>
+                    <input type="checkbox" [(ngModel)]="permission.checked"
+                      (change)="toggleParentPermission($event, permission)" name="{{ permission.name }}Checked">
+                    {{ permission.name }}
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.c"
+                      name="{{ permission.name }}Create" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.r"
+                      [disabled]="!permission.checked" name="{{ permission.name }}Read">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.u"
+                      name="{{ permission.name }}Update" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.d"
+                      name="{{ permission.name }}Delete" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="addNewRole()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Edit Role Modal -->
+<div class="modal fade" id="editRoleModal" tabindex="-1" aria-labelledby="editRoleModalLabel" aria-hidden="true"
+  #editRoleModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editRoleModalLabel">Edit Role</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editRoleForm="ngForm">
+          <div class="mb-3">
+            <label for="editRoleName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editRoleName" name="name" [(ngModel)]="updatedRole.name"
+              required>
+          </div>
+          <div class="mb-3">
+            <label for="editRoleDescription" class="form-label">Description</label>
+            <input type="text" class="form-control" id="editRoleDescription" name="description"
+              [(ngModel)]="updatedRole.description">
+          </div>
+          <div class="mb-3">
+
+            <table class="table1">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Create</th>
+                  <th>Read</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let permission of updatedRole.permissions">
+                  <td><input type="checkbox" [(ngModel)]="permission.checked"
+                      (change)="toggleParentPermission($event, permission)" name="{{ permission.name }}Checked">{{
+                    permission.name }}</td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.c"
+                      name="{{ permission.name }}Create" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.r"
+                      [disabled]="!permission.checked" name="{{ permission.name }}Read">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.u"
+                      name="{{ permission.name }}Update" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                  <td>
+                    <input *ngIf="!isParentPermission(permission.id)" type="checkbox" [(ngModel)]="permission.d"
+                      name="{{ permission.name }}Delete" (change)="toggleChildAndParentRead(permission)">
+                  </td>
+                </tr>
+oo
+              </tbody>
+            </table>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="close-update" (click)="updateExistingRole()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <h2>Roles Management</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Role Id</th>
+        <th scope="col">Role</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+        <!-- <th>Name</th>
+        <th>Description</th>
+        <th>Action</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of roles">
+        <td>{{ role.id }}</td>
+        <td>{{ role.name }}</td>
+        <td>{{ role.description }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editRoleModal"
+            (click)="editRole(role)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="updateRoleStatus(role.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <h2>Abdul qayyum</h2>
+  <Div><button>Click krrro
+  </button></Div>
+</div>
